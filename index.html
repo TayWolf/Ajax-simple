@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX -Simple</title>
+</head>
+<body>
+    <!-- Para comprobar ambas fucniones solo debe cambiar el nombre en el evento onclick del botón-->
+    <button onclick="peticionPOST()">
+        Petición AJAX
+    </button>
+    <h1 id="titulo"></h1>
+    <script>
+        function peticionGET(){
+            // El método XMLHttpRequest el cúal nos permite enviar y recibir datos
+            // Almacenamos el objeto en una variable 
+            let theObject = new XMLHttpRequest();
+            // Pedimos datos a un servidor con el método .open(), en este caso a nuestro archivo backend.php
+            // .open('Tipo de petición GET|POST','archivo o URL')
+            theObject.open('GET', 'backend.php', true);
+            // Establecemos las opciones de la petición con el método .setRequestHeader('Content-Type','Tipo de contenido');
+            // x-ww-form-urlencoded: codifica los datos que son enviados al servidor desde el navegador
+            theObject.setRequestHeader('Content-Type','application/x-ww-form-urlencoded');
+            //onreadystatechange: Método que se encarga de ver que respuesta recibimos del servidor
+            theObject.onreadystatechange = function(){
+                // Escuchamos la respuesta en formato de texto y en este caso la mostramos por consola
+                console.log(theObject.responseText);
+                // Para mostrar el mensaje en un elemento de la página en tipo texto(responseText)
+                document.getElementById('titulo').innerHTML = theObject.responseText;
+            }
+            // El método .send() se encarga de enviar la petición
+            theObject.send();
+        }
+
+        function peticionPOST(){
+            let theObject = new XMLHttpRequest();
+            theObject.open('POST', 'backend.php', true);
+            theObject.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+            theObject.onreadystatechange = function(){
+                document.getElementById('titulo').innerHTML = theObject.responseText;
+            }
+            theObject.send('username=TayWolf');
+        }
+    </script>
+</body>
+</html>
